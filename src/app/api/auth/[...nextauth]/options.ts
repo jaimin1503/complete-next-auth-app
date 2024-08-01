@@ -2,7 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
-import { signIn } from "next-auth/react";
 
 const prisma = new PrismaClient();
 
@@ -46,6 +45,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token._id = user?.id?.toString();
         token.username = user.username;
+        token.isVerified = user.isVerified;
       }
       return token;
     },
@@ -53,12 +53,13 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user.id = user.id.toString();
         session.user.username = user.username;
+        session.user.isVerified = user.isVerified;
       }
       return session;
     },
   },
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/sign-in",
   },
   session: {
     strategy: "jwt",

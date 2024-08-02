@@ -35,8 +35,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-
-# DATABASE_URL="postgresql://mydb_owner:YO4pNaRVk7jr@ep-gentle-tooth-a5mhnvo3.us-east-2.aws.neon.tech/mydb?sslmode=require"
-# NEXT_AUTH_SECRET=MyAuthSecret
-# RESEND_API_KEY="re_aRLX5pxX_GujPeuMN1PYXGWgFFuUFW5F7"

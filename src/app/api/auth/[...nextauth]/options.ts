@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      id: "Credentials",
+      id: "credentials",
       name: "Credentials",
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
@@ -23,7 +23,6 @@ export const authOptions: NextAuthOptions = {
           if (!user) {
             throw new Error("No user found with this Username");
           }
-
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
@@ -35,6 +34,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Incorrect Password");
           }
         } catch (err: any) {
+          console.log("error in authorize", err);
           throw new Error(err);
         }
       },
@@ -49,20 +49,20 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    async session({ session, user, token }) {
+    async session({ session, token }) {
       if (token) {
-        session.user.id = user.id.toString();
-        session.user.username = user.username;
-        session.user.isVerified = user.isVerified;
+        session.user._id = token._id;
+        session.user.username = token.username;
+        session.user.isVerified = token.isVerified;
       }
       return session;
     },
-  },
-  pages: {
-    signIn: "/sign-in",
   },
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXT_AUTH_SECRET,
+  pages: {
+    signIn: "/sign-in",
+  },
 };

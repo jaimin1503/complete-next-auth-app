@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { signIn } from "next-auth/react"
+import { useSession } from "next-auth/react"
 
 const page = () => {
 
@@ -37,6 +38,7 @@ const page = () => {
 			username: data.username,
 			password: data.password,
 		})
+		console.log(response)
 		if (response?.error) {
 			toast({
 				title: "Login failed",
@@ -44,7 +46,9 @@ const page = () => {
 				variant: 'destructive'
 			})
 		}
+
 		if (response?.url) {
+			console.log("inside")
 			router.replace('/dashboard')
 		}
 		setIsSubmitting(false)

@@ -22,7 +22,7 @@ const Page = () => {
 	const [usernameMessage, setUsernameMessage] = useState('')
 	const [isCheckingUsername, setIsCheckingUsername] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const debounced = useDebounceCallback(setUsername, 300)
+	const debounced = useDebounceCallback(setUsername, 400)
 	const { toast } = useToast()
 	const router = useRouter()
 
@@ -97,12 +97,13 @@ const Page = () => {
 												field.onChange(e)
 												debounced(e.target.value)
 											}} />
-										{/* {isCheckingUsername && <Loader2 className="animate-spin" />} */}
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
+						{isCheckingUsername && <Loader2 className="animate-spin" />}
+						<FormDescription>{usernameMessage}</FormDescription>
 						<FormField
 							name="email"
 							control={form.control}
